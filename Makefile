@@ -1,19 +1,19 @@
 CC = gcc
-SRCS = main.c
-OBJS = $(SRCS:.c=.o)
-INCLUDES =
-LIBDIRS =
-LIBS = -lparse -ljson
-TARGET = quickstart
 
-all: $(TARGET)
+all: quickstart
 
-$(TARGET): $(OBJS) 
-	$(CC) $(LIBDIRS) $(OBJS) -o $(TARGET) $(LIBS)
+quickstart: usbreset hub-ctrl main.o 
+	$(CC) main.o -o quickstart -lparse -ljson
 
-.c.o:
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+main.o:
+	$(CC) main.c -o main.o -c
+
+usbreset:
+	$(CC) usbreset.c -o usbreset 
+
+hub-ctrl:
+	$(CC) hub-ctrl.c -o hub-ctrl -lusb
 
 clean:
-	rm -fR $(TARGET) $(OBJS)
+	rm -fR quickstart main.o usbreset hub-ctrl
 
