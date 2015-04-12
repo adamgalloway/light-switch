@@ -34,5 +34,5 @@ In all of my tests reseting USB disables the network so be sure to restart the n
 Once the scripts are tested you can run `quickstart` as root to wait for Parse push notifications. Run as a service and enjoy.
 
 Big props the the usbreset and hub-ctrl scripts found here and here:
-http://www.gniibe.org/oitoite/ac-power-control-by-USB-hub/hub-ctrl.c
+https://github.com/codazoda/hub-ctrl.c
 https://gist.githubusercontent.com/x2q/5124616/raw/3f6e5f144efab2bc8e9d02b95b8301e1e0eab669/usbreset.c
