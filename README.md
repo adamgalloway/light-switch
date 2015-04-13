@@ -13,6 +13,7 @@ https://www.parse.com/apps/quickstart?onboard=#embedded/raspberrypi
 Stop short of setting up the test project (only install the SDK).
 
 Run the following to install dependencies:
+
 `sudo apt-get install libusb-dev libjson0 libjson0-dev libconfig-dev`
 
 Edit main.c to use your Parse keys.
