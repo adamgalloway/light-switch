@@ -42,5 +42,7 @@ stopScript = "/home/pi/light-switch/stop-lights.sh";
 Once the scripts are tested you can run `quickstart` as root to wait for Parse push notifications. Run as a service and enjoy.
 
 Big props the the usbreset and hub-ctrl scripts found here and here:
+
 https://github.com/codazoda/hub-ctrl.c
+
 https://gist.githubusercontent.com/x2q/5124616/raw/3f6e5f144efab2bc8e9d02b95b8301e1e0eab669/usbreset.c
