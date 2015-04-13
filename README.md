@@ -32,12 +32,13 @@ In all of my tests, reseting USB disables the network so be sure to restart the 
 
 Create a file called config.cfg
 
-`
+```
 parseAppId = "<parse app id here>";
 parseKey = "<parse key here>";
 startScript = "/home/pi/light-switch/start-lights.sh";
 stopScript = "/home/pi/light-switch/stop-lights.sh";
-`
+```
+
 Once the scripts are tested you can run `quickstart` as root to wait for Parse push notifications. Run as a service and enjoy.
 
 Big props the the usbreset and hub-ctrl scripts found here and here:
