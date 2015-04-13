@@ -3,7 +3,7 @@ CC = gcc
 all: quickstart
 
 quickstart: usbreset hub-ctrl main.o 
-	$(CC) main.o -o quickstart -lparse -ljson
+	$(CC) main.o -o quickstart -lparse -ljson -lconfig
 
 main.o:
 	$(CC) main.c -o main.o -c

@@ -21,9 +21,15 @@
 
 #include <json/json.h>
 #include <stdio.h>
+#include <libconfig.h>
 #include <parse.h>
 
 #define LINE_BUFSIZE 128
+
+const char *parseAppId = NULL;
+const char *parseKey = NULL;
+const char *startScript = NULL;
+const char *stopScript = NULL;
 
 void runCommand(const char *command) {
   char line[LINE_BUFSIZE];
@@ -35,6 +41,7 @@ void runCommand(const char *command) {
     return;
   }
 
+  // write results of script
   while (fgets(line, LINE_BUFSIZE, pipe) != NULL) {
     printf(line);
   }
@@ -42,7 +49,7 @@ void runCommand(const char *command) {
   pclose(pipe);
 }
 
-void myPushCallback(ParseClient client, int error, const char *buffer) {
+void pushCallback(ParseClient client, int error, const char *buffer) {
   if (error == 0 && buffer != NULL) {
     struct json_object *new_obj = json_tokener_parse(buffer);
 
@@ -53,10 +60,10 @@ void myPushCallback(ParseClient client, int error, const char *buffer) {
 
     if (strcmp(message, "start-lights") == 0) {
       printf("we gonna startem\n");
-      runCommand("/home/pi/start-lights.sh");
+      runCommand(startScript);
     } else if (strcmp(message, "stop-lights") == 0) {
       printf("we gonna stopem\n");
-      runCommand("/home/pi/stop-lights.sh");
+      runCommand(stopScript);
     } else {
       printf("received unhandled push: '%n'\n", buffer);
     }
@@ -66,12 +73,48 @@ void myPushCallback(ParseClient client, int error, const char *buffer) {
 
 int main(int argc, char *argv[]) {
 
-  ParseClient client = parseInitialize("key", "key");
- 
-  parseSetPushCallback(client, myPushCallback);
+  config_t cfg, *cf;
+
+  cf = &cfg;
+  config_init(cf);
+
+  if (!config_read_file(cf, "config.cfg")) {
+    fprintf(stderr, "%s:%d - %s\n",
+            config_error_file(cf),
+            config_error_line(cf),
+            config_error_text(cf));
+    config_destroy(cf);
+    return(EXIT_FAILURE);
+  }
+
+  if (!config_lookup_string(cf, "parseAppId", &parseAppId)) {
+    fprintf(stderr, "error getting app id\n");
+    return(EXIT_FAILURE);
+  }
+
+  if (!config_lookup_string(cf, "parseKey", &parseKey)) {
+    fprintf(stderr, "error getting api key\n");
+    return(EXIT_FAILURE);
+  } 
+
+  if (!config_lookup_string(cf, "startScript", &startScript)) {
+    fprintf(stderr, "error getting start script path\n");
+    return(EXIT_FAILURE);
+  }
+
+  if (!config_lookup_string(cf, "stopScript", &stopScript)) {
+    fprintf(stderr, "error getting stop script path\n");
+    return(EXIT_FAILURE);
+  }
+
+  ParseClient client = parseInitialize(parseAppId, parseKey);
+  
+  parseSetPushCallback(client, pushCallback);
   parseStartPushService(client);
  
   parseRunPushLoop(client);
+
+  config_destroy(cf);
 
   return 0;
 }

@@ -13,7 +13,7 @@ https://www.parse.com/apps/quickstart?onboard=#embedded/raspberrypi
 Stop short of setting up the test project (only install the SDK).
 
 Run the following to install dependencies:
-`sudo apt-get install libusb-dev libjson0 libjson0-dev`
+`sudo apt-get install libusb-dev libjson0 libjson0-dev libconfig-dev`
 
 Edit main.c to use your Parse keys.
 Edit the start-lights.sh and stop-lights.sh files to set the proper paths in the scripts.
@@ -27,6 +27,15 @@ Use the follwing to test reseting the hub (using lsusb is also helpful to find t
 sudo ./usbreset /dev/bus/usb/001/002 && sudo /etc/init.d/networking restart
 
 In all of my tests reseting USB disables the network so be sure to restart the networking service whenever using usbreset.
+
+Create a file called config.cfg
+
+`
+parseAppId = "<parse app id here>";
+parseKey = "<parse key here>";
+startScript = "/home/pi/light-switch/start-lights.sh";
+stopScript = "/home/pi/light-switch/stop-lights.sh";
+`
 
 Big props the the usbreset and hub-ctrl scripts found here and here:
 http://www.gniibe.org/oitoite/ac-power-control-by-USB-hub/hub-ctrl.c
