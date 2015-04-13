@@ -3,11 +3,13 @@ Parse push notification enabled usb hub power switching for controlling lights w
 
 # Setup
 Start with the Google Coder Raspberry Pi image from here:
+
 http://googlecreativelab.github.io/coder/
 
 SSH into the box using the username `pi` and the password configured through the Coder ui.
 
 Follow the steps to install the Parse Embedded SDK from here:
+
 https://www.parse.com/apps/quickstart?onboard=#embedded/raspberrypi
 
 Stop short of setting up the test project (only install the SDK).
